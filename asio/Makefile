@@ -3,20 +3,20 @@
 OPT=-ggdb
 CXX=g++
 CXXFLAGS=-std=c++11 -I. -I./src/ $(OPT)
-LDFLAGS= -lboost_system 
-SOURCES=./async_tcp_echo_server.cpp
+LDFLAGS= -lboost_system -lboost_thread
+SOURCES=./async_client.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
 default: all
 
-all: async_tcp_echo_server 
+all: async_client 
 
-async_tcp_echo_server: async_tcp_echo_server.o
+async_client: async_client.o
 	$(CXX) $+ -o $@ $(LDFLAGS)
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f ./async_tcp_echo_server
+	rm -f ./async_client
 	rm -f $(OBJECTS)
