@@ -97,6 +97,7 @@ private:
             on_clients();
         } else {
             std::cerr << "invalid msg " << msg << std::endl;
+            stop();
         }
     }
 
@@ -174,8 +175,10 @@ private:
     size_t read_complete(const boost::system::error_code& err, size_t bytes)
     {
         if (err) {
+            // TODO
             return 0;
         }
+
         bool found = std::find(read_buffer_, read_buffer_ + bytes, '\n') < read_buffer_ + bytes;
         // we read one-by-one until we get to enter, no buffering
         return found ? 0 : 1;
@@ -183,7 +186,7 @@ private:
 
 private:
     ip::tcp::socket sock_;
-    enum { max_msg = 1024 };
+    enum { max_msg = 10 };
     char read_buffer_[max_msg];
     char write_buffer_[max_msg];
     bool started_;
@@ -200,7 +203,7 @@ void update_clients_changed()
     }
 }
 
-ip::tcp::acceptor acceptor(service, ip::tcp::endpoint(ip::tcp::v4(), 8001));
+ip::tcp::acceptor acceptor(service);
 
 void handle_accept(talk_to_client::ptr client, const boost::system::error_code& err)
 {
@@ -212,6 +215,20 @@ void handle_accept(talk_to_client::ptr client, const boost::system::error_code& 
 
 int main(int argc, char* argv[])
 {
+    boost::system::error_code ec;
+
+    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 8001);
+    acceptor.open(endpoint.protocol());
+    acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+    acceptor.bind(endpoint, ec);
+    if (ec) {
+        std::cerr << "failed to bind to " << endpoint << " " << ec.message() 
+                  << "(" << ec.category().name() << " " << ec.value() << ")"
+                  << std::endl;
+        return -1;
+    }
+    acceptor.listen();
+
     talk_to_client::ptr client = talk_to_client::new_();
     acceptor.async_accept(client->sock(), boost::bind(handle_accept, client, _1));
     service.run();
