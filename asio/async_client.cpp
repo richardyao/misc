@@ -33,7 +33,7 @@ class talk_to_svr : public boost::enable_shared_from_this<talk_to_svr>
 
     void start(ip::tcp::endpoint ep) 
     {
-        sock_.async_connect(ep, MEM_FN1(on_connect, _1));
+        sock_.async_connect(ep, MEM_FN2(on_connect, _1, ep));
     }
 
 public:
@@ -63,13 +63,16 @@ public:
     }
 
 private:
-    void on_connect(const error_code& err)
+    void on_connect(const error_code& err, const ip::tcp::endpoint &ep)
     {
-        if (!err) {
-            do_write("login " + username_ + "\n");
-        } else {
+        if (err) {
+            std::cerr << "failed to connect " << ep << " " << err.message().c_str() 
+                      << "(" << err.category().name() << " " << err.value() << ")" 
+                      << std::endl;
             stop();
         }
+
+        do_write("login " + username_ + "\n");
     }
 
     void on_read(const error_code& err, size_t bytes)

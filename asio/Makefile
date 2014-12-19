@@ -9,9 +9,12 @@ OBJECTS=$(SOURCES:.cpp=.o)
 
 default: all
 
-all: async_client 
+all: async_client async_server 
 
 async_client: async_client.o
+	$(CXX) $+ -o $@ $(LDFLAGS)
+
+async_server: async_server.o
 	$(CXX) $+ -o $@ $(LDFLAGS)
 
 .cpp.o:
@@ -19,4 +22,5 @@ async_client: async_client.o
 
 clean:
 	rm -f ./async_client
+	rm -f ./async_server
 	rm -f $(OBJECTS)
