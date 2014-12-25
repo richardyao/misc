@@ -1,0 +1,41 @@
+digraph g {
+    node [
+        shape=circle,
+        style=filled,
+        color="#000000",
+        fixedsize=true
+        width=0.30
+        height=0.30
+    ];
+    
+    start [ label="" ];
+   
+    node [
+        shape=doublecircle,
+        style=filled,
+        color="#000000"
+        fixedsize=true
+        width=0.3
+        height=0.3
+    ];
+    end   [ label="" ];
+    
+    node [
+        shape=rectangle
+        style="solid,rounded"
+        fontname="Microsoft YaHei"
+        fixedsize=false
+        margin="0.20,0.10"
+    ];
+    step1 [ label="1) 初始化所有事件模块的ctx_index序号" ];
+    step2 [ label="2) 分配指针数组，存储所有事件模块生成的配置项结构体指针" ];
+    step3 [ label="3) 调用所有事件模块的create_conf方法" ];
+    step4 [ label="4) 为所有事件模块解析nginx.conf配置文件" ];
+    step5 [ label="5) 调用所有事件模块的init_conf方法" ];
+    start -> step1;
+    step1 -> step2;
+    step2 -> step3;
+    step3 -> step4;
+    step4 -> step5;
+    step5 -> end;
+}

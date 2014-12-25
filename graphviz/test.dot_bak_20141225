@@ -1,0 +1,36 @@
+digraph g {
+    graph [ 
+        fontpath="." 
+        fontname="Microsoft YaHei";
+    ];
+    
+    node [
+        shape=circle,
+        fontsize=8,
+        style=filled,
+        color="#000000"
+    ];
+    
+    start [ label="" ];
+   
+    node [
+        shape=doublecircle,
+        fontsize=8,
+        style=filled,
+        color="#000000"
+    ];
+    end   [ label="" ];
+    
+    node [
+        //fontname="Microsoft YaHei"
+        fontname="YaHei"
+        //fontname="微软雅黑"
+        //fontname="FangSong"
+        //fontname="STHUPO"
+        shape=ellipse
+        style=solid
+    ];
+    step1 [ label="1) 初始化所有事件模块的ctx_index序号" ];
+    start -> step1;
+    step1 -> end;
+}
