@@ -1,0 +1,23 @@
+digraph tcp_state_diagram {
+    
+    subgraph cluster_0 {
+        graph[style=dotted]
+        bgcolor="#cdffff"
+        color=black
+
+        node [
+            shape=rectangle,
+            style=filled,
+            color="#0000FF"
+        ]
+
+        passive_close [ label="Passive CLOSE" ]
+        close_wait [ label="CLOSE WAIT" ]  
+        last_ack   [ label="LAST ACK" ]
+        close_wait -> last_ack
+   }
+
+}
+
+
+
