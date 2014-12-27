@@ -1,0 +1,30 @@
+digraph g {
+    rankdir=BT
+    graph [
+        splines=ortho
+    ]
+    node [
+        fontname="verdana"
+        shape=circle
+        fixedsize=true
+        width=0.00
+        height=0.00
+    ]
+   
+    nothing [label=""]
+    
+    node [
+        fontname="verdana"
+        shape="box"
+        style="filled"
+        fillcolor="#B2D4EB"
+        fixedsize=true
+        width=1.4
+        height=0.3
+    ]
+
+    nothing -> Investment [arrowhead="onormal" arrowsize=1.5]
+    Stock -> nothing [arrowhead="none"]
+    Bond -> nothing [arrowhead="none"]
+    RealEstate -> nothing [arrowhead="none"]
+}
