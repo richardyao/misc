@@ -1,9 +1,6 @@
 graph g {
     node [
         fontname="Microsoft YaHei"
-        //fontname="YaHei"
-        //fontname="微软雅黑"
-        //fontname="/home/richard/workspace/misc/graphviz/msyh.ttf"
     ]
     你好 -- Hello
 }
